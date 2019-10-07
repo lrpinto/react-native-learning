@@ -4,6 +4,7 @@ import { CardList } from '../components/CardList'
 import { SearchText } from '../components/SearchText'
 import * as actions from '../actions'
 import { Icon } from 'react-native-elements'
+import _ from 'lodash'
 
 export default class AlbumsScreen extends React.Component {
 	constructor(props) {
@@ -11,19 +12,40 @@ export default class AlbumsScreen extends React.Component {
 
 		this.state = {
 			albums: [],
-			showLoading: false
+			isFetching: false,
+			artist: ''
+		}
+
+		this.debounceSearch = _.debounce(this.searchTracks, 50)
+	}
+
+	componentDidUpdate(previousProps, previousState) {
+		const { artist } = this.state
+		if (previousState.artist !== artist && artist) {
+			this.debounceSearch(artist)
 		}
 	}
 
-	searchTracks = search => {
-		this.setState({ showLoading: true })
+	updateSearch = artist => {
+		if (artist !== '') {
+			this.setState({ artist: artist, isFetching: true })
+		} else {
+			this.setState({ artist: artist, isFetching: false, albums: [] })
+		}
+	}
+
+	searchTracks = artist => {
 		actions
-			.searchTracks(search)
-			.then(albums => this.setState({ albums, showLoading: false }))
-			.catch(error => this.setState({ albums: [], showLoading: false }))
+			.searchTracks(artist)
+			.then(albums => this.setState({ albums, isFetching: false }))
+			.catch(error => {
+				console.error(error)
+				this.setState({ albums: [], isFetching: false })
+			})
 	}
 
 	renderBottomNavigation = album => {
+		const { artist } = this.state
 		return (
 			<View style={styles.albumView}>
 				<Icon
@@ -36,7 +58,7 @@ export default class AlbumsScreen extends React.Component {
 				/>
 				<Icon
 					onPress={() => {
-						this.props.navigation.navigate('AlbumDetail', { album })
+						this.props.navigation.navigate('AlbumDetail', { album, artist })
 					}}
 					raised
 					name='info'
@@ -57,13 +79,13 @@ export default class AlbumsScreen extends React.Component {
 	}
 
 	renderAlbumView() {
-		const { albums, showLoading } = this.state
-
+		const { albums, isFetching, artist } = this.state
 		return (
 			<ScrollView style={styles.container}>
 				<SearchText
-					updateSearch={this.searchTracks}
-					showLoading={showLoading}
+					search={artist}
+					updateSearch={this.updateSearch}
+					isFetching={isFetching}
 				></SearchText>
 				<CardList
 					data={albums}

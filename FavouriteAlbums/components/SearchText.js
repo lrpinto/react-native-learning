@@ -5,39 +5,29 @@ import { StyleSheet } from 'react-native'
 export class SearchText extends React.Component {
 	constructor(props) {
 		super(props)
-
-		this.state = {
-			search: '',
-			showLoading: false
-		}
+		this.searchBar = React.createRef()
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
-		const { showLoading } = this.props
-		if (prevProps.showLoading !== showLoading) {
-			this.setState({ showLoading })
-		}
+	componentDidMount() {
+		this.searchBar.current.focus()
 	}
 
-	updateSearch = search => {
-		this.setState({ search })
-
-		const { updateSearch } = this.props
-		if (updateSearch) {
-			updateSearch(search)
+	componentDidUpdate(prevProps) {
+		if (prevProps.isFetching !== this.props.isFetching) {
+			this.searchBar.current.focus()
 		}
 	}
 
 	render() {
-		const { search, showLoading } = this.state
-
+		const { search, isFetching, updateSearch } = this.props
 		return (
 			<SearchBar
+				ref={this.searchBar}
 				lightTheme={true}
 				placeholder='Search an artist...'
-				onChangeText={this.updateSearch}
+				onChangeText={updateSearch}
 				value={search}
-				showLoading={showLoading}
+				showLoading={isFetching}
 				containerStyle={styles.containerStyle}
 				inputContainerStyle={styles.inputContainerStyle}
 				inputStyle={styles.inputStyle}

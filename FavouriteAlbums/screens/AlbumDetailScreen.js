@@ -56,11 +56,13 @@ export default class AlbumDetailScreen extends React.Component {
 			return (
 				<ScrollView style={styles.container}>
 					<View>
-						<Avatar
-							xlarge
-							rounded
-							source={{ uri: album.cover_medium }}
-						></Avatar>
+						<View>
+							<Avatar
+								xlarge
+								rounded
+								source={{ uri: album.cover_medium }}
+							></Avatar>
+						</View>
 						<Text h4>{album.title}</Text>
 						<Text h4>{artist}</Text>
 						<Icon
@@ -96,11 +98,32 @@ AlbumDetailScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		paddingTop: 16,
-		backgroundColor: '#fff'
+		flex: 1
 	},
-	albumDetailView: {
+	header: {
+		flex: 1,
+		justifyContent: 'center',
+		flexDirection: 'row',
+		backgroundColor: '#fff',
+		padding: '20'
+	},
+	avatar: {
+		flex: 1,
+		marginRight: 20
+	},
+	headerRight: {
+		flex: 1,
+		flexWrap: 'wrap',
+		justifyContent: 'flex-end',
 		flexDirection: 'column'
+	},
+	mainText: {
+		fontWeight: 'bold',
+		color: '#3a3a3a',
+		fontSize: 17
+	},
+	subText: {
+		color: '#3a3a3a',
+		fontSize: 17
 	}
 })

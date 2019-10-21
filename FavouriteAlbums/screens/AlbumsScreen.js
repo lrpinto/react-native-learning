@@ -99,6 +99,7 @@ export default class AlbumsScreen extends React.Component {
 	}
 
 	render() {
+		debugger
 		return this.renderAlbumView()
 	}
 }

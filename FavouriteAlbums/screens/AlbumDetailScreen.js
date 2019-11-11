@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View, Linking } from 'react-native'
 import * as actions from '../actions'
 import { Avatar, Text, Icon, Divider, ListItem } from 'react-native-elements'
 
@@ -33,7 +33,7 @@ export default class AlbumDetailScreen extends React.Component {
 						title={track.title}
 						leftIcon={{ name: 'play-arrow' }}
 						onPress={() => {
-							console.error('Not Implemented')
+							Linking.openURL(track.preview)
 						}}
 						rightIcon={{
 							raised: true,
@@ -52,30 +52,37 @@ export default class AlbumDetailScreen extends React.Component {
 	renderAlbumDetailView() {
 		const album = this.props.navigation.getParam('album', {})
 		const artist = this.props.navigation.getParam('artist', '')
+
 		if (album.id) {
 			return (
 				<ScrollView style={styles.container}>
-					<View>
-						<View>
+					<View style={styles.header}>
+						<View style={styles.avatar}>
 							<Avatar
-								xlarge
+								size='xlarge'
 								rounded
 								source={{ uri: album.cover_medium }}
 							></Avatar>
 						</View>
-						<Text h4>{album.title}</Text>
-						<Text h4>{artist}</Text>
-						<Icon
-							raised
-							name='play'
-							type='font-awesome'
-							color='#f50'
-							size={30}
-							onPress={() => {}}
-						/>
+						<View style={styles.headerRight}>
+							<Text style={styles.mainText}>{album.title}</Text>
+							<Text style={styles.subText}>{artist}</Text>
+							<Icon
+								raised
+								name='play'
+								type='font-awesome'
+								color='#f50'
+								size={30}
+								onPress={() => {
+									Linking.openURL(this.state.tracks[0].preview)
+								}}
+							/>
+						</View>
 					</View>
-					<Divider style={{ backgroundColor: 'grey' }} />
-					<View>{this.renderTracks()}</View>
+					<Divider style={{ height: 3, backgroundColor: '#f50' }} />
+					<View style={{ paddingTop: 0, marginTop: 0 }}>
+						{this.renderTracks()}
+					</View>
 				</ScrollView>
 			)
 		} else {
@@ -105,11 +112,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		flexDirection: 'row',
 		backgroundColor: '#fff',
-		padding: '20'
+		padding: 20
 	},
 	avatar: {
 		flex: 1,
-		marginRight: 20
+		marginRight: 10
 	},
 	headerRight: {
 		flex: 1,
@@ -120,10 +127,11 @@ const styles = StyleSheet.create({
 	mainText: {
 		fontWeight: 'bold',
 		color: '#3a3a3a',
-		fontSize: 17
+		fontSize: 18
 	},
 	subText: {
+		fontWeight: 'normal',
 		color: '#3a3a3a',
-		fontSize: 17
+		fontSize: 18
 	}
 })

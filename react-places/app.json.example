@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "React Places",
+    "slug": "react-places",
+    "privacy": "public",
+    "sdkVersion": "35.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "PACKAGE_NAME_HERE"
+    },
+    "android": {
+			"package": "PACKAGE_NAME_HERE",
+			"config": {
+				"googleMaps": { 
+					"apiKey": "API_KEY_HERE" 
+				}   
+		 }
+    },
+    "description": ""
+  }
+}

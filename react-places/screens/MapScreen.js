@@ -1,23 +1,31 @@
 import React from 'react'
 import { StyleSheet, View, Dimensions, Text } from 'react-native'
-import { MapView } from 'react-native-maps'
+import MapView from 'react-native-maps'
+import * as actions from '../actions/maps/index'
+import Globals from '../constants/Globals'
 
 export default class MapScreen extends React.Component {
 	constructor(props) {
 		super(props)
 
-		this.state = {}
+		this.state = {
+			region: Globals.regions.codeArcsCords
+		}
 	}
 
-	componentDidMount() {}
+	onRegionChange = region => {
+		this.setState({ region })
+	}
 
 	renderMapView() {
+		const { region, loaded } = this.state
 		return (
 			<View style={styles.container}>
-				<Text>{'Map component will be here'}</Text>
-				{
-					// <MapView style={styles.mapStyle} />
-				}
+				<MapView
+					style={styles.mapStyle}
+					initialRegion={region}
+					onRegionChange={this.onRegionChange}
+				/>
 			</View>
 		)
 	}

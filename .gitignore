@@ -1,0 +1,5 @@
+# Ignore the real app.json (create it from app.json.example)
+react-places/app.json
+
+# Ignore environment variables file (create it from .env.example)
+react-places/.env

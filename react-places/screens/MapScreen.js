@@ -3,6 +3,7 @@ import { StyleSheet, View, Dimensions, Text } from 'react-native'
 import MapView from 'react-native-maps'
 import * as actions from '../actions/maps/index'
 import Globals from '../constants/Globals'
+import _ from 'lodash'
 
 export default class MapScreen extends React.Component {
 	constructor(props) {
@@ -11,9 +12,12 @@ export default class MapScreen extends React.Component {
 		this.state = {
 			region: Globals.regions.codeArcsCords
 		}
+
+		this.debounceOnRegionChange = _.debounce(this.onRegionChange, 50)
 	}
 
 	onRegionChange = region => {
+		console.log(region)
 		this.setState({ region })
 	}
 
@@ -24,7 +28,7 @@ export default class MapScreen extends React.Component {
 				<MapView
 					style={styles.mapStyle}
 					initialRegion={region}
-					onRegionChange={this.onRegionChange}
+					onRegionChange={this.debounceOnRegionChange}
 				/>
 			</View>
 		)

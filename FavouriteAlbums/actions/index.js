@@ -24,3 +24,30 @@ export const getAlbumTracks = albumId => {
 		return response.data.tracks.data
 	})
 }
+
+// Persisting data
+export const storeData = async (key, value) => {
+	debugger
+	const stringifyValue = JSON.stringify(value)
+
+	try {
+		await AsyncStorage.setItem(key, stringifyValue)
+	} catch (error) {
+		// Error saving data
+	}
+}
+
+// Fetching data
+export const retrieveData = async key => {
+	try {
+		const value = await AsyncStorage.getItem(key)
+		if (value !== null) {
+			// We have data!!
+			debugger
+			const parsedValue = JSON.parse(value)
+			return JSON.parse(value)
+		}
+	} catch (error) {
+		// Error retrieving data
+	}
+}

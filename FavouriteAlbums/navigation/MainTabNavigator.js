@@ -11,6 +11,7 @@ import LinksScreen from '../screens/LinksScreen'
 import SettingsScreen from '../screens/SettingsScreen'
 import AlbumsScreen from '../screens/AlbumsScreen'
 import AlbumDetailScreen from '../screens/AlbumDetailScreen'
+import StorageScreen from '../screens/StorageScreen'
 
 const config = Platform.select({
 	web: { headerMode: 'screen' },
@@ -63,7 +64,8 @@ LinksStack.path = ''
 
 const SettingsStack = createStackNavigator(
 	{
-		Settings: SettingsScreen
+		Settings: SettingsScreen,
+		Storage: StorageScreen
 	},
 	config
 )

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ScrollView, StyleSheet, View, Linking } from 'react-native'
-import * as actions from '../actions'
+import * as actions from '../actions/maps'
 import { Avatar, Text, Icon, Divider, ListItem } from 'react-native-elements'
 
 export default class PlaceScreen extends React.Component {

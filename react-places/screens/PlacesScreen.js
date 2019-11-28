@@ -2,7 +2,7 @@ import React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { CardList } from '../components/CardList'
 import { SearchText } from '../components/SearchText'
-import * as actions from '../actions'
+import * as actions from '../actions/maps'
 import { Icon } from 'react-native-elements'
 import _ from 'lodash'
 

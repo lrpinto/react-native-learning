@@ -1,12 +1,28 @@
+/**
+ * A region is defined by the center coordinates and the span of coordinates to display.
+ */
 const regions = {
-	codeArcsCords: {
-		latitude: 55.06980284318688,
-		longitude: -3.595082927495241,
-		latitudeDelta: 0.0013812367396965897,
-		longitudeDelta: 0.0014520809054370254
+	codeArcs: {
+		latitude: 55.069945,
+		longitude: -3.595272,
+		latitudeDelta: 0.05,
+		longitudeDelta: 0.05
 	}
 }
 
+const markers = [
+	{
+		latlng: {
+			latitude: 55.069945,
+			longitude: -3.595272
+		},
+		title: 'CodeArcs',
+		description: 'We Create Software to Scale',
+		color: '#00ff00'
+	}
+]
+
 export default {
-	regions
+	regions,
+	markers
 }

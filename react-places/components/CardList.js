@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { Card, Button, Icon, Text } from 'react-native-elements'
+import { Card, Text } from 'react-native-elements'
 
 export class CardList extends React.Component {
 	constructor(props) {
@@ -15,6 +15,7 @@ export class CardList extends React.Component {
 				<Card
 					title={item[titleKey]}
 					image={{ uri: item[imageKey] }}
+					imageProps={{ resizeMode: 'contain' }}
 					key={index}
 				>
 					{bottomView(item)}

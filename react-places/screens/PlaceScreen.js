@@ -1,6 +1,6 @@
 import React from 'react'
 import { ScrollView, StyleSheet, View, Linking } from 'react-native'
-import * as actions from '../actions/maps'
+import * as actions from '../actions/places'
 import { Avatar, Text, Icon, Divider, ListItem } from 'react-native-elements'
 
 export default class PlaceScreen extends React.Component {
@@ -8,33 +8,30 @@ export default class PlaceScreen extends React.Component {
 		super(props)
 
 		this.state = {
-			notes: []
+			visits: []
 		}
 	}
 
 	componentDidMount() {
 		const place = this.props.navigation.getParam('place', {})
 		actions
-			.getPlaceNotes(place.id)
-			.then(notes => this.setState({ notes }))
+			.getPlaceVisits(place.place_id)
+			.then(visits => this.setState({ visits }))
 			.catch(error => {
 				console.error(error)
-				this.setState({ notes: [] })
+				this.setState({ visits: [] })
 			})
 	}
 
-	renderNotes() {
-		const { notes } = this.state
-		if (notes && notes.length > 0) {
-			return notes.map((note, index) => {
+	rendervisits() {
+		const { visits } = this.state
+		if (visits && visits.length > 0) {
+			return visits.map((visit, index) => {
 				return (
 					<ListItem
 						key={index}
-						title={note.title}
+						title={visit.title}
 						leftIcon={{ name: 'eye' }}
-						onPress={() => {
-							Linking.openURL(note.preview)
-						}}
 						rightIcon={{
 							raised: true,
 							name: 'star',
@@ -60,26 +57,26 @@ export default class PlaceScreen extends React.Component {
 							<Avatar
 								size='xlarge'
 								rounded
-								source={{ uri: place.cover_medium }}
+								source={{ uri: place.icon }}
 							></Avatar>
 						</View>
 						<View style={styles.headerRight}>
-							<Text style={styles.mainText}>{place.title}</Text>
+							<Text style={styles.mainText}>{place.name}</Text>
 							<Icon
 								raised
-								name='play'
+								name='eye'
 								type='font-awesome'
 								color='#00ff00'
 								size={30}
 								onPress={() => {
-									Linking.openURL(this.state.notes[0].preview)
+									Linking.openURL(this.state.visits[0].preview)
 								}}
 							/>
 						</View>
 					</View>
 					<Divider style={{ height: 3, backgroundColor: '#00ff00' }} />
 					<View style={{ paddingTop: 0, marginTop: 0 }}>
-						{this.renderNotes()}
+						{this.rendervisits()}
 					</View>
 				</ScrollView>
 			)

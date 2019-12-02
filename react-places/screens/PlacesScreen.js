@@ -2,7 +2,7 @@ import React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { CardList } from '../components/CardList'
 import { SearchText } from '../components/SearchText'
-import * as actions from '../actions/maps'
+import * as actions from '../actions/places'
 import { Icon } from 'react-native-elements'
 import _ from 'lodash'
 
@@ -19,6 +19,11 @@ export default class PlacesScreen extends React.Component {
 		this.debounceSearch = _.debounce(this.searchPlaces, 50)
 	}
 
+	componentDidMount() {
+		const { place } = this.state
+		this.searchPlaces(place)
+	}
+
 	componentDidUpdate(previousProps, previousState) {
 		const { place } = this.state
 		if (previousState.place !== place && place) {
@@ -30,7 +35,11 @@ export default class PlacesScreen extends React.Component {
 		if (place !== '') {
 			this.setState({ place: place, isFetching: true })
 		} else {
-			this.setState({ place: place, isFetching: false, places: [] })
+			this.setState({
+				place: place,
+				isFetching: false,
+				places: []
+			})
 		}
 	}
 
@@ -48,17 +57,11 @@ export default class PlacesScreen extends React.Component {
 		return (
 			<View style={styles.placeView}>
 				<Icon
-					onPress={() => {}}
+					onPress={() => {
+						this.props.navigation.navigate('Map', { place })
+					}}
 					raised
-					name='map-pin'
-					type='font-awesome'
-					color='#00ff00'
-					size={30}
-				/>
-				<Icon
-					onPress={() => {}}
-					raised
-					name='map-marked-alt'
+					name='map-marker'
 					type='font-awesome'
 					color='#00ff00'
 					size={30}
@@ -69,6 +72,14 @@ export default class PlacesScreen extends React.Component {
 					}}
 					raised
 					name='info'
+					type='font-awesome'
+					color='#00ff00'
+					size={30}
+				/>
+				<Icon
+					onPress={() => {}}
+					raised
+					name='flag-checkered'
 					type='font-awesome'
 					color='#00ff00'
 					size={30}
@@ -89,8 +100,8 @@ export default class PlacesScreen extends React.Component {
 				<CardList
 					data={places}
 					itemsName='places'
-					titleKey='title'
-					imageKey='cover_big'
+					titleKey='name'
+					imageKey='icon'
 					bottomView={this.renderBottomNavigation}
 				></CardList>
 			</ScrollView>

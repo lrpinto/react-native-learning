@@ -4,14 +4,14 @@ import { Text, Icon, Card } from 'react-native-elements'
 
 const menuList = [
 	{
-		title: 'Favourite Places',
-		subtitle: 'Access your favourite places',
-		icon: 'star',
+		title: 'Places',
+		subtitle: 'Access your places directory',
+		icon: 'bookmark',
 		navigateTo: 'Places'
 	},
 	{
-		title: 'Search Places',
-		subtitle: 'Search new favourite places',
+		title: 'Map',
+		subtitle: 'View your places on the map',
 		icon: 'map',
 		navigateTo: 'Map'
 	},

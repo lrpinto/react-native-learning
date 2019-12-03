@@ -1,7 +1,11 @@
 import React from 'react'
-import { StyleSheet, View, Dimensions, Text } from 'react-native'
-import MapView, { Marker } from 'react-native-maps'
-import * as actions from '../actions/places'
+import { Linking } from 'expo'
+import { StyleSheet, View, Dimensions, Platform } from 'react-native'
+import { Text } from 'react-native-elements'
+import MapView, { Marker, Callout, CalloutSubview } from 'react-native-maps'
+import * as places from '../actions/places'
+import * as googleMapsUrls from '../actions/maps/urls/google'
+import * as appleMapsUrls from '../actions/maps/urls/apple'
 import Globals from '../constants/Globals'
 import _ from 'lodash'
 
@@ -32,7 +36,7 @@ export default class MapScreen extends React.Component {
 			region.longitude = place.geometry.location.lng
 		}
 
-		actions
+		places
 			.getMarkers(place.id)
 			.then(markers => this.setState({ markers, isFetching: false, region }))
 			.catch(error => {
@@ -45,17 +49,33 @@ export default class MapScreen extends React.Component {
 		this.setState({ region })
 	}
 
+	onCalloutPress = marker => {
+		if (Platform.OS === 'ios') {
+			Linking.openURL(appleMapsUrls.getDirectionsUrl(marker))
+		} else {
+			Linking.openURL(googleMapsUrls.getDirectionsUrl(marker))
+		}
+	}
+
+	renderCalloutView(marker) {
+		return (
+			<Callout onPress={() => this.onCalloutPress(marker)}>
+				<View style={styles.container}>
+					<Text h4>{marker.title}</Text>
+					<Text>{marker.description}</Text>
+					<Text>{'Click Me to View Directions'}</Text>
+				</View>
+			</Callout>
+		)
+	}
+
 	renderMapMarkers() {
 		const { markers } = this.state
 		return markers.map((marker, index) => {
 			return (
-				<Marker
-					key={index}
-					coordinate={marker.latlng}
-					title={marker.title}
-					description={marker.description}
-					pinColor={marker.color}
-				/>
+				<Marker key={index} coordinate={marker.latlng} pinColor={marker.color}>
+					{this.renderCalloutView(marker)}
+				</Marker>
 			)
 		})
 	}

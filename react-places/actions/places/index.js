@@ -39,7 +39,8 @@ export const getMarkers = (selectedId = '') => {
 				},
 				title: item.name,
 				description: item.formatted_address,
-				color: selectedId === item.id ? '#33cccc' : '#00ff00'
+				color: selectedId === item.id ? '#33cccc' : '#00ff00',
+				place_id: item.place_id
 			}
 		})
 		return markers
